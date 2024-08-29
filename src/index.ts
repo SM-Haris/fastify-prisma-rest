@@ -1,13 +1,23 @@
 import Fastify from "fastify";
 import dotenv from "dotenv";
 import { routes } from "./routes";
+import fastifyJWT from "@fastify/jwt";
+import Authentication from "./middlewares/auth";
 
 dotenv.config();
 
-const fastify = Fastify({ logger: true });
+const fastify = Fastify({
+  logger: true,
+});
+
+fastify.register(fastifyJWT, {
+  secret: process.env.JWT_SECRET || "supersecret",
+});
+
+fastify.decorate("authenticate", Authentication.AuthMiddleware);
 
 fastify.get("/", (req, res) => {
-  res.send({ test: "Hello" });
+  res.send({ test: "Hello World" });
 });
 
 for (const [prefix, route] of Object.entries(routes)) {
@@ -22,6 +32,7 @@ const start = async () => {
     process.exit(1);
   }
 };
+
 start();
 
 export default fastify;
