@@ -10,7 +10,7 @@ class Authentication {
       const decoded = (await req.jwtVerify()) as DecodedJwtToken;
       req.user = decoded.id;
     } catch (err) {
-      reply.send(err);
+      reply.status(403).send(err);
     }
   };
 }

@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import { routes } from "./routes";
 import fastifyJWT from "@fastify/jwt";
 import Authentication from "./middlewares/auth";
+import { AuditLogger, ErrorLogger } from "./middlewares/logging";
 
 dotenv.config();
 
@@ -16,12 +17,19 @@ fastify.register(fastifyJWT, {
 
 fastify.decorate("authenticate", Authentication.AuthMiddleware);
 
+// Middleware for logging every request
+fastify.addHook("onRequest", AuditLogger);
+
+// Error handler for logging errors
+fastify.setErrorHandler(ErrorLogger);
+
+// Example route
 fastify.get("/", (req, res) => {
   res.send({ test: "Hello World" });
 });
 
 for (const [prefix, route] of Object.entries(routes)) {
-  fastify.register(route, { prefix: prefix });
+  fastify.register(route, { prefix });
 }
 
 const start = async () => {

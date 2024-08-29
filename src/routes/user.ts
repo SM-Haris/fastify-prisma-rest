@@ -1,5 +1,5 @@
 import { FastifyInstance } from "fastify";
-import UserController from "../app/user/userController";
+import UserController from "../app/user/controller";
 import { currentUserSchema } from "../lib/schemas/user";
 
 const userRoutes = async (app: FastifyInstance) => {
