@@ -3,16 +3,17 @@ import { ComparePassword } from "../../lib/helpers/bcrypt";
 import { LoginRequestBody, SignUpRequestBody } from "../../lib/types/auth";
 import { createUser, findUserByEmail } from "../user/service";
 import { getAuthTokens } from "../../lib/helpers/jwt";
+import { AUTH_CONSTANTS } from "../../lib/constants/auth";
+import { ThrowIfUserExists } from "../../lib/utilts/user";
 
 class AuthManager {
   static signup = async (data: SignUpRequestBody) => {
     try {
+      await ThrowIfUserExists(data.username, data.email);
+
       await createUser(data);
-    } catch (error) {
-      //log it into audit file
-      console.log(error);
-      //move to a constant file
-      throw new Error("User with this username/email already exists");
+    } catch {
+      throw new Error(AUTH_CONSTANTS.SIGNUP_FAILURE);
     }
   };
 
@@ -25,11 +26,8 @@ class AuthManager {
       ComparePassword(user.password, data.password);
 
       return getAuthTokens(req, user.id);
-    } catch (error) {
-      //log it into audit file
-      console.log(error);
-      //move to a constant file
-      throw new Error("No active users with thse credentials exists");
+    } catch {
+      throw new Error(AUTH_CONSTANTS.LOGIN_FAILURE);
     }
   };
 }

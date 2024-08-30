@@ -22,3 +22,16 @@ export const createUser = async (data: SignUpRequestBody) => {
     data: data,
   });
 };
+
+export const findByNameOrEmail = async (username: string, email: string) => {
+  return await prisma.user.findFirst({
+    where: {
+      OR: [
+        {
+          username: username,
+          email: email,
+        },
+      ],
+    },
+  });
+};

@@ -1,18 +1,15 @@
-import { FastifyReply, FastifyRequest, onRequestHookHandler } from "fastify";
+import { FastifyReply, FastifyRequest } from "fastify";
 import { DecodedJwtToken } from "../lib/types/auth";
+import { HTTP_STATUS } from "../lib/constants/api";
 
-class Authentication {
-  static AuthMiddleware: onRequestHookHandler = async (
-    req: FastifyRequest,
-    reply: FastifyReply
-  ) => {
-    try {
-      const decoded = (await req.jwtVerify()) as DecodedJwtToken;
-      req.user = decoded.id;
-    } catch (err) {
-      reply.status(403).send(err);
-    }
-  };
-}
-
-export default Authentication;
+export const authenticationMiddleware = async (
+  req: FastifyRequest,
+  res: FastifyReply
+) => {
+  try {
+    const decoded = (await req.jwtVerify()) as DecodedJwtToken;
+    req.user = decoded.id;
+  } catch (err) {
+    res.status(HTTP_STATUS.FORBIDDEN_403).send(err);
+  }
+};

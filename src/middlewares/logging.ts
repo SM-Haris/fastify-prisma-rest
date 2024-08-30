@@ -4,6 +4,7 @@ import path from "path";
 import fs from "fs";
 import { createStream } from "rotating-file-stream"; // Ensure correct import
 import pino from "pino";
+import { HTTP_STATUS } from "../lib/constants/api";
 
 dotenv.config();
 
@@ -57,5 +58,10 @@ export const ErrorLogger = (
     user: req.user || "Anonymous",
     timestamp: new Date().toISOString(),
   });
-  res.status(500).send({ error: "Internal Server Error" });
+
+  if (error.statusCode && error.message) {
+    res.status(error.statusCode).send({ error: error.message });
+  }
+
+  res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR_500).send({ error: "Internal Server Error" });
 };

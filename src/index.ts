@@ -2,7 +2,6 @@ import Fastify from "fastify";
 import dotenv from "dotenv";
 import { routes } from "./routes";
 import fastifyJWT from "@fastify/jwt";
-import Authentication from "./middlewares/auth";
 import { AuditLogger, ErrorLogger } from "./middlewares/logging";
 
 dotenv.config();
@@ -14,8 +13,6 @@ const fastify = Fastify({
 fastify.register(fastifyJWT, {
   secret: process.env.JWT_SECRET || "supersecret",
 });
-
-fastify.decorate("authenticate", Authentication.AuthMiddleware);
 
 // Middleware for logging every request
 fastify.addHook("onRequest", AuditLogger);

@@ -1,3 +1,4 @@
+import { USER_CONSTANTS } from "../../lib/constants/user";
 import { fetchSingleUser } from "./service";
 
 class UserManager {
@@ -6,11 +7,8 @@ class UserManager {
       const user = fetchSingleUser(user_id);
 
       return user;
-    } catch (error) {
-      //log it into audit file
-      console.log(error);
-      //move to a constant file
-      throw new Error("User is not authorized");
+    } catch {
+      throw new Error(USER_CONSTANTS.CURRENT_USER_FAILURE);
     }
   };
 }

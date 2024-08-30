@@ -1,12 +1,9 @@
-export type SignUpRequestBody = {
-  email: string;
-  password: string;
-  username: string;
-};
-
 export type LoginRequestBody = {
   email: string;
   password: string;
+};
+
+export type SignUpRequestBody = LoginRequestBody & {
   username: string;
 };
 

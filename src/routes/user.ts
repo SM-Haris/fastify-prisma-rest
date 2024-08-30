@@ -1,14 +1,14 @@
 import { FastifyInstance } from "fastify";
 import UserController from "../app/user/controller";
 import { currentUserSchema } from "../lib/schemas/user";
+import { authenticationMiddleware } from "../middlewares/auth";
 
 const userRoutes = async (app: FastifyInstance) => {
   app.route({
     method: "GET",
     url: "/me",
     schema: currentUserSchema,
-    //@ts-expect-error authenticate object does not exists on app's instance
-    preHandler: [app?.authenticate],
+    preHandler: [authenticationMiddleware],
     handler: UserController.currentUser,
   });
 };

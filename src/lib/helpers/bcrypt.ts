@@ -1,4 +1,7 @@
+import dotenv from "dotenv";
 import bcrypt from "bcrypt";
+
+dotenv.config();
 
 export const EncryptPassword = async (password: string) => {
   const encryptedPassword = bcrypt.hash(
