@@ -17,5 +17,5 @@ model user {
   id       String  @id @default(uuid()) @db.Uuid
   username String  @unique @db.VarChar(255)
   email    String  @unique @db.VarChar(255)
-  password String  @db.VarChar(20)
+  password String  @db.VarChar(255)
 }

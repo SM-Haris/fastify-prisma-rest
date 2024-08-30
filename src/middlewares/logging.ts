@@ -48,7 +48,7 @@ export const AuditLogger = async (req: FastifyRequest) => {
 export const ErrorLogger = (
   error: FastifyError,
   req: FastifyRequest,
-  res: FastifyReply
+  res: FastifyReply,
 ) => {
   errorLogger.error({
     message: error.message,
@@ -63,5 +63,7 @@ export const ErrorLogger = (
     res.status(error.statusCode).send({ error: error.message });
   }
 
-  res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR_500).send({ error: "Internal Server Error" });
+  res
+    .status(HTTP_STATUS.INTERNAL_SERVER_ERROR_500)
+    .send({ error: "Internal Server Error" });
 };

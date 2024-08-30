@@ -1,5 +1,5 @@
 import { FastifyRequest } from "fastify";
-import { ComparePassword } from "../../lib/helpers/bcrypt";
+import { ComparePassword, EncryptPassword } from "../../lib/helpers/bcrypt";
 import { LoginRequestBody, SignUpRequestBody } from "../../lib/types/auth";
 import { createUser, findUserByEmail } from "../user/service";
 import { getAuthTokens } from "../../lib/helpers/jwt";
@@ -11,8 +11,10 @@ class AuthManager {
     try {
       await ThrowIfUserExists(data.username, data.email);
 
-      await createUser(data);
-    } catch {
+      const encryptedPassword = await EncryptPassword(data.password);
+
+      await createUser({ ...data, password: encryptedPassword });
+    } catch (error) {
       throw new Error(AUTH_CONSTANTS.SIGNUP_FAILURE);
     }
   };
@@ -23,7 +25,7 @@ class AuthManager {
 
       const user = await findUserByEmail(data.email);
 
-      ComparePassword(user.password, data.password);
+      await ComparePassword(data.password, user.password);
 
       return getAuthTokens(req, user.id);
     } catch {

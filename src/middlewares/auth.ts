@@ -4,7 +4,7 @@ import { HTTP_STATUS } from "../lib/constants/api";
 
 export const authenticationMiddleware = async (
   req: FastifyRequest,
-  res: FastifyReply
+  res: FastifyReply,
 ) => {
   try {
     const decoded = (await req.jwtVerify()) as DecodedJwtToken;

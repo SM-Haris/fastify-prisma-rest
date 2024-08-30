@@ -4,19 +4,18 @@ import bcrypt from "bcrypt";
 dotenv.config();
 
 export const EncryptPassword = async (password: string) => {
-  const encryptedPassword = bcrypt.hash(
+  const encryptedPassword = await bcrypt.hash(
     password,
-    process.env.BCRYPT_SALT_ROUND as string
+    Number(process.env.BCRYPT_SALT_ROUND),
   );
 
   return encryptedPassword;
 };
 
 export const ComparePassword = async (password: string, hash: string) => {
-  const result = bcrypt.compare(password, hash);
+  const result = await bcrypt.compare(password, hash);
 
   if (!result) {
-    // make this a constant
     throw new Error("Password is incorrect");
   }
 
