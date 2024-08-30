@@ -4,7 +4,6 @@ logs
 
 # Compiled binary addons (http://nodejs.org/api/addons.html)
 build/Release
-build
 
 # Dependency directories
 node_modules/
@@ -13,11 +12,13 @@ node_modules/
 .npm
 
 # Optional eslint cache
-.eslintcache
+.eslintcache   
 
 # dotenv environment variable files
 .env
 
+# Build folder
+build/
 
 # TypeScript cache
 *.tsbuildinfo
