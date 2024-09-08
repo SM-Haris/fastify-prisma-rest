@@ -1,8 +1,8 @@
 import prisma from "../../lib/helpers/prisma";
-import { SignUpRequestBody } from "../../lib/types/auth";
+import { SignUpRequestBody } from "../auth/types";
 
 export const fetchSingleUser = async (user_id: string) => {
-  return await prisma.user.findFirstOrThrow({
+  return await prisma.user.findFirst({
     where: {
       id: user_id as string,
     },
@@ -10,7 +10,7 @@ export const fetchSingleUser = async (user_id: string) => {
 };
 
 export const findUserByEmail = async (email: string) => {
-  return await prisma.user.findFirstOrThrow({
+  return await prisma.user.findFirst({
     where: {
       email: email as string,
     },

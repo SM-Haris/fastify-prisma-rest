@@ -1,5 +1,5 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { DecodedJwtToken } from "../lib/types/auth";
+import { DecodedJwtToken } from "../app/auth/types";
 import { HTTP_STATUS } from "../lib/constants/api";
 
 export const authenticationMiddleware = async (

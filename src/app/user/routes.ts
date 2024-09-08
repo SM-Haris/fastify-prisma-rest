@@ -1,7 +1,7 @@
 import { FastifyInstance } from "fastify";
-import UserController from "../app/user/controller";
-import { currentUserSchema } from "../lib/schemas/user";
-import { authenticationMiddleware } from "../middlewares/auth";
+import UserController from "./controller";
+import { currentUserSchema } from "./schemas";
+import { authenticationMiddleware } from "../../middlewares/auth";
 
 const userRoutes = async (app: FastifyInstance) => {
   app.route({

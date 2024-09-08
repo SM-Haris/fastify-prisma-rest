@@ -1,6 +1,6 @@
 import { FastifyInstance } from "fastify";
-import AuthController from "../app/auth/controller";
-import { loginSchema, signupSchema } from "../lib/schemas/auth";
+import AuthController from "./controller";
+import { loginSchema, signupSchema } from "./schemas";
 
 const authRoutes = async (app: FastifyInstance) => {
   app.route({
